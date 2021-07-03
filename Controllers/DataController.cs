@@ -13,16 +13,49 @@ namespace EcommerceApi.Controllers
     public class DataController : ControllerBase
     {
 
+
         [HttpGet]
         [Route("Getdata")]
         public IActionResult GetData()
         {
+
+            Root root = ReturnData();
+
+            try
+            {
+                if(root==null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(root);
+                }
+               
+            }
+            catch (Exception ex)
+            {
+
+                throw ;
+            }
+          
+
+
+
+        }
+
+
+         [NonAction]
+         public Root ReturnData()
+        {
+
+           
             //Categories
-            List<int> categories =new List<int>();
+            List<int> categories = new List<int>();
             categories.Add(1);
             categories.Add(2);
 
-           
+
             //Loaction
             Location location = new Location();
             dynamic myObject = new Location();
@@ -54,18 +87,14 @@ namespace EcommerceApi.Controllers
             root.Menu = menus;
 
 
-            if(root==null)
-            {
-                return NotFound();
-            }
-            else
-            {
+            // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(root);
 
-                return Ok(root);
-            }
+            //string output = JsonConvert.SerializeObject(root);
 
-
+            return root;
         }
+
+      
 
 
         public class Location
@@ -142,6 +171,7 @@ namespace EcommerceApi.Controllers
             [JsonProperty("menu")]
             public List<Menu> Menu { get; set; }
         }
+
 
 
 

@@ -26,6 +26,33 @@ namespace EcommerceApi.Controllers
         [Route("authors")]
         public IActionResult GetAllAuthors()
         {
+          
+            return Ok(_myContext.Authors.ToArray());
+          
+        }
+
+        [HttpGet]
+        [Route("authors/{Id:int}")]
+        public async Task<IActionResult> GetAuthor(int Id)
+        {
+            var Author = await _myContext.Authors.FindAsync(Id);
+
+            if (Author == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(Author);
+            }
+
+
+
+        }
+
+
+        public IActionResult GetStudentData()
+        {
             List<Book> books = new List<Book>();
 
             ResponseModel _objResponseModel = new ResponseModel();
@@ -56,10 +83,13 @@ namespace EcommerceApi.Controllers
             _objResponseModel.Status = true;
             _objResponseModel.Message = "Data Received successfully";
             _objResponseModel.Students = students;
-            //return Ok(_myContext.Authors.ToArray());
+
+
             return Ok(_objResponseModel);
+
         }
 
+        
 
         public class Student
         {
@@ -82,24 +112,7 @@ namespace EcommerceApi.Controllers
         }
 
 
-        [HttpGet]
-        [Route("authors/{Id:int}")]
-        public async  Task<IActionResult> GetAuthor(int Id)
-        {
-           var Author = await _myContext.Authors.FindAsync(Id);
-
-            if(Author==null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return Ok(Author);
-            }
-
-            
-
-        }
+        
 
 
     }
