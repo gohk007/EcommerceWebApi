@@ -17,14 +17,13 @@ namespace EcommerceApi.Controllers
         [Route("Getdata")]
         public IActionResult GetData()
         {
+            //Categories
             List<int> categories =new List<int>();
             categories.Add(1);
             categories.Add(2);
 
-            //List<Location> locations = new List<Location>();
-
-            //locations.Add(new Location { Latitude = 1.5347282806345879, Longitude = 110.35632207358996 });
-
+           
+            //Loaction
             Location location = new Location();
             dynamic myObject = new Location();
             location.Latitude = 1.5347282806345879;
@@ -32,7 +31,7 @@ namespace EcommerceApi.Controllers
             //myObject.AddProperty("DateOfBirth", new DateTime(1980, 23, 11));
 
 
-            //Courier
+            //Courier if we make like this object will auto convert to an ayyarin sted of list
             List<Courier> courier = new List<Courier>();
             courier.Add(new Courier { Avatar = "images.avatar_1", Name = "Amy" });
 
@@ -55,11 +54,16 @@ namespace EcommerceApi.Controllers
             root.Menu = menus;
 
 
+            if(root==null)
+            {
+                return NotFound();
+            }
+            else
+            {
 
+                return Ok(root);
+            }
 
-
-
-            return Ok(root);
 
         }
 
