@@ -1,3 +1,4 @@
+using EcommerceApi.Models;
 using EmployeeApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,17 +38,18 @@ namespace EmployeeApi
 
 
             services.AddDbContext<EmployeeDbContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
+            services.AddDbContext<MyContext>(options=>options.UseInMemoryDatabase("catalouge"));
             // services.AddCors();
-            services.AddCors(options =>
-            {
-                // this defines a CORS policy called "default"
-                options.AddPolicy("default", policy =>
-                {
-                    policy.WithOrigins("http://localhost:3000")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
-            });
+            //services.AddCors(options =>
+            //{
+            //    // this defines a CORS policy called "default"
+            //    options.AddPolicy("default", policy =>
+            //    {
+            //        policy.WithOrigins("http://localhost:3000")
+            //            .AllowAnyHeader()
+            //            .AllowAnyMethod();
+            //    });
+            //});
 
         }
 
@@ -57,7 +59,7 @@ namespace EmployeeApi
 
             //app.UseCors(options => options.WithOrigins("https://localhost:3000").AllowAnyHeader().AllowAnyHeader());
 
-            app.UseCors("default");
+            //app.UseCors("default");
 
             if (env.IsDevelopment())
             {

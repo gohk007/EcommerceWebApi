@@ -19,7 +19,7 @@ namespace EmployeeApi.Controllers
         private readonly EmployeeDbContext _context;
         private readonly IWebHostEnvironment _hostEnviroment;
 
-        public EmployessController(EmployeeDbContext context,IWebHostEnvironment hostEnviroment)
+        public EmployessController(EmployeeDbContext context, IWebHostEnvironment hostEnviroment)
         {
 
             _context = context;
@@ -48,7 +48,7 @@ namespace EmployeeApi.Controllers
         //}
 
         [HttpPost]
-        public async  Task<ActionResult<EmployeeModel>> PostEmploymentModel([FromForm]EmployeeModel employeeModel)
+        public async Task<ActionResult<EmployeeModel>> PostEmploymentModel([FromForm] EmployeeModel employeeModel)
         {
             var Image = await SaveImage(employeeModel.ImageFile);
             employeeModel.ImageName = Image;
@@ -76,15 +76,15 @@ namespace EmployeeApi.Controllers
         [NonAction]
         public async Task<string> SaveImage(IFormFile imageFile)
         {
-            string ImageName = new String(Path.GetFileName(imageFile.FileName).Take(10).ToArray()).Replace(' ','-');
+            string ImageName = new String(Path.GetFileName(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
 
             ImageName = ImageName + DateTime.Now.ToString("MM/dd/yyyy") + Path.GetFileName(imageFile.FileName);
 
             var imagePath = Path.Combine(_hostEnviroment.ContentRootPath, "Images", ImageName);
 
-            using (var FileStream = new FileStream(imagePath,FileMode.Create))
+            using (var FileStream = new FileStream(imagePath, FileMode.Create))
             {
-               await imageFile.CopyToAsync(FileStream);
+                await imageFile.CopyToAsync(FileStream);
             }
 
             return ImageName;
